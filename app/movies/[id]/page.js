@@ -30,6 +30,15 @@ export default async function MovieDetailsPage({ params }) {
 			</Link>
 
 			<h1 className="text-3xl font-bold mt-4">{movie.name}</h1>
+
+			{movie.posterUrl && (
+				<img
+					src={movie.posterUrl}
+					alt={movie.name}
+					className="w-48 rounded mt-4"
+				/>
+			)}
+
 			<p className="text-gray-500 mt-1">
 				{movie.director} · {movie.lengthMin} min
 			</p>
