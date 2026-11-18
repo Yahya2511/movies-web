@@ -26,7 +26,10 @@ export default async function Navbar() {
 						</form>
 					</>
 				) : (
-					<Link href="/login">Log in</Link>
+					<div className="flex gap-4">
+						<Link href="/login">Log in</Link>
+						<Link href="/register">Sign up</Link>
+					</div>
 				)}
 			</div>
 		</nav>

@@ -10,6 +10,9 @@ export default function MovieCard({ movie }) {
 			<p className="text-sm text-gray-500">
 				{movie.director} · {movie.lengthMin} min
 			</p>
+			<p className="text-sm mt-1">
+				{movie.averageRating ? `★ ${movie.averageRating}/10` : "No ratings yet"}
+			</p>
 			<p className="mt-2 line-clamp-2">{movie.description}</p>
 		</Link>
 	);

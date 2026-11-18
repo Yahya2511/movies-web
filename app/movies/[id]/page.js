@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { api } from "@/lib/api";
+import { api, authApi } from "@/lib/api";
 import { getCurrentUser } from "@/lib/auth";
 import RatingForm from "./RatingForm";
 import { deleteRatingAction } from "./actions";
+
+import AddToPlaylistForm from "./AddToPlaylistForm";
 
 export default async function MovieDetailsPage({ params }) {
 	const { id } = await params;
@@ -19,6 +21,8 @@ export default async function MovieDetailsPage({ params }) {
 	const user = await getCurrentUser();
 	const myRating = user ? ratings.find((r) => r.UserId === user.id) : null;
 
+	const playlists = user ? await authApi("/playlists") : [];
+
 	return (
 		<main className="p-8 max-w-3xl mx-auto">
 			<Link href="/movies" className="text-sm text-blue-500">
@@ -29,7 +33,11 @@ export default async function MovieDetailsPage({ params }) {
 			<p className="text-gray-500 mt-1">
 				{movie.director} · {movie.lengthMin} min
 			</p>
+			<p className="mt-2 font-semibold">
+				{movie.averageRating ? `★ ${movie.averageRating}/10` : "No ratings yet"}
+			</p>
 			<p className="mt-4">{movie.description}</p>
+			{user && <AddToPlaylistForm movieId={id} playlists={playlists} />}
 
 			{user ? (
 				<>
