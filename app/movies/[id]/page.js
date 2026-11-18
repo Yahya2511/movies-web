@@ -42,6 +42,19 @@ export default async function MovieDetailsPage({ params }) {
 			<p className="text-gray-500 mt-1">
 				{movie.director} · {movie.lengthMin} min
 			</p>
+			{movie.Genres?.length > 0 && (
+				<div className="flex flex-wrap gap-2 mt-3">
+					{movie.Genres.map((g) => (
+						<Link
+							key={g.id}
+							href={`/movies?genre=${g.id}`}
+							className="text-xs border rounded-full px-3 py-1"
+						>
+							{g.name}
+						</Link>
+					))}
+				</div>
+			)}
 			<p className="mt-2 font-semibold">
 				{movie.averageRating ? `★ ${movie.averageRating}/10` : "No ratings yet"}
 			</p>

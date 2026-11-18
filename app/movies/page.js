@@ -3,24 +3,26 @@ import { api } from "@/lib/api";
 import MovieCard from "@/components/MovieCard";
 
 export default async function MoviesPage({ searchParams }) {
-	const { name, director, sort, page } = await searchParams;
+	const { name, director, genre, sort, page } = await searchParams;
 
 	const params = new URLSearchParams();
 	if (name) params.set("name", name);
 	if (director) params.set("director", director);
+	if (genre) params.set("genre", genre);
 	if (sort) params.set("sort", sort);
 	if (page) params.set("page", page);
 
-	const {
-		data: movies,
-		page: current,
-		totalPages,
-	} = await api(`/movies?${params.toString()}`);
+	const [result, genres] = await Promise.all([
+		api(`/movies?${params.toString()}`),
+		api("/genres"),
+	]);
+	const { data: movies, page: current, totalPages } = result;
 
 	function pageLink(p) {
 		const q = new URLSearchParams();
 		if (name) q.set("name", name);
 		if (director) q.set("director", director);
+		if (genre) q.set("genre", genre);
 		if (sort) q.set("sort", sort);
 		q.set("page", p);
 		return `/movies?${q.toString()}`;
@@ -30,7 +32,7 @@ export default async function MoviesPage({ searchParams }) {
 		<main className="p-8">
 			<h1 className="text-3xl font-bold mb-6">All movies</h1>
 
-			<form className="grid gap-2 sm:grid-cols-4 mb-6">
+			<form className="grid gap-2 sm:grid-cols-5 mb-6">
 				<input
 					name="name"
 					defaultValue={name ?? ""}
@@ -43,6 +45,20 @@ export default async function MoviesPage({ searchParams }) {
 					placeholder="Director..."
 					className="border rounded p-2"
 				/>
+				<select
+					name="genre"
+					defaultValue={genre ?? ""}
+					className="border rounded p-2 bg-transparent"
+				>
+					<option value="" className="text-black">
+						All genres
+					</option>
+					{genres.map((g) => (
+						<option key={g.id} value={g.id} className="text-black">
+							{g.name}
+						</option>
+					))}
+				</select>
 				<select
 					name="sort"
 					defaultValue={sort ?? ""}
