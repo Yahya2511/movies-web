@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { authApi } from "@/lib/api";
 import { getCurrentUser } from "@/lib/auth";
 import { removeMovieAction } from "../actions";
+import RenameForm from "./RenameForm";
 
 export default async function PlaylistDetailsPage({ params }) {
 	const { id } = await params;
@@ -23,7 +24,8 @@ export default async function PlaylistDetailsPage({ params }) {
 				← Back to playlists
 			</Link>
 
-			<h1 className="text-3xl font-bold mt-4 mb-6">{playlist.name}</h1>
+			<h1 className="text-3xl font-bold mt-4 mb-4">{playlist.name}</h1>
+			<RenameForm playlist={playlist} />
 
 			{playlist.Movies.length === 0 ? (
 				<p className="text-gray-500">No movies in this playlist yet.</p>

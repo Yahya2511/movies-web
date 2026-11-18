@@ -3,7 +3,7 @@ import { api } from "@/lib/api";
 import { deleteMovieAction } from "./actions";
 
 export default async function AdminPage() {
-	const movies = await api("/movies");
+	const { data: movies } = await api("/movies?limit=50");
 
 	return (
 		<main className="p-8 max-w-3xl mx-auto">

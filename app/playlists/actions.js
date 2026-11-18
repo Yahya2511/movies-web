@@ -46,3 +46,20 @@ export async function addMovieAction(movieId, prevState, formData) {
 	revalidatePath(`/playlists/${playlistId}`);
 	return { error: null, success: true };
 }
+
+export async function renamePlaylistAction(id, prevState, formData) {
+	const name = formData.get("name");
+
+	try {
+		await authApi(`/playlists/${id}`, {
+			method: "PUT",
+			body: JSON.stringify({ name }),
+		});
+	} catch (error) {
+		return { error: error.message };
+	}
+
+	revalidatePath(`/playlists/${id}`);
+	revalidatePath("/playlists");
+	return { error: null };
+}
