@@ -44,7 +44,7 @@ export default function MovieForm({ movie }) {
 			<button
 				type="submit"
 				disabled={pending}
-				className="bg-blue-600 text-white rounded px-4 py-2 disabled:opacity-50"
+				className="w-full rounded-lg bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-500 disabled:opacity-50"
 			>
 				{pending ? "Saving..." : movie ? "Save changes" : "Create movie"}
 			</button>

@@ -19,30 +19,51 @@ export default async function PlaylistDetailsPage({ params }) {
 	}
 
 	return (
-		<main className="p-8 max-w-2xl mx-auto">
-			<Link href="/playlists" className="text-sm text-blue-500">
+		<main className="mx-auto max-w-4xl p-6 md:p-8">
+			<Link
+				href="/playlists"
+				className="text-sm text-blue-400 hover:text-blue-300"
+			>
 				← Back to playlists
 			</Link>
 
-			<h1 className="text-3xl font-bold mt-4 mb-4">{playlist.name}</h1>
+			<h1 className="mb-4 mt-4 text-3xl font-bold">{playlist.name}</h1>
 			<RenameForm playlist={playlist} />
 
 			{playlist.Movies.length === 0 ? (
-				<p className="text-gray-500">No movies in this playlist yet.</p>
+				<p className="text-gray-400">
+					No movies yet. Open a movie and use "Add to playlist".
+				</p>
 			) : (
-				<ul className="space-y-3">
+				<ul className="grid gap-3 sm:grid-cols-2">
 					{playlist.Movies.map((movie) => (
 						<li
 							key={movie.id}
-							className="flex items-center justify-between border rounded p-4"
+							className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-3"
 						>
-							<Link href={`/movies/${movie.id}`} className="font-semibold">
-								{movie.name}
-							</Link>
+							{movie.posterUrl && (
+								<img
+									src={movie.posterUrl}
+									alt={movie.name}
+									className="h-24 w-16 rounded object-cover"
+								/>
+							)}
+							<div className="flex-1">
+								<Link
+									href={`/movies/${movie.id}`}
+									className="font-semibold hover:underline"
+								>
+									{movie.name}
+								</Link>
+								<p className="text-sm text-gray-400">{movie.director}</p>
+							</div>
 							<form
 								action={removeMovieAction.bind(null, playlist.id, movie.id)}
 							>
-								<button type="submit" className="text-sm text-red-500">
+								<button
+									type="submit"
+									className="text-sm text-red-400 hover:text-red-300"
+								>
 									Remove
 								</button>
 							</form>

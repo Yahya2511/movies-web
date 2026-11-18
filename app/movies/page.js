@@ -91,7 +91,7 @@ export default async function MoviesPage({ searchParams }) {
 			{movies.length === 0 ? (
 				<p className="text-gray-500">No movies found.</p>
 			) : (
-				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 					{movies.map((movie) => (
 						<MovieCard key={movie.id} movie={movie} />
 					))}
